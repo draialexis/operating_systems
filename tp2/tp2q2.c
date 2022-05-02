@@ -26,6 +26,8 @@ int main(){
   switch(p){
   case 0:
     printf("child %d\n", getpid());
+    //SIGCHLD is sent to the parent process
+    //f is called because of the sigaction() call in derail()
     break;
   case -1:
     perror("fork error\n");
