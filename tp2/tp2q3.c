@@ -30,7 +30,7 @@ int main(){
     kill(getpid(), SIGSTOP);
     printf("parent 2\n");
     wait(&status);
-    printf("you might have to Ctrl-C out of this one, chief...\n");
+    exit(0);
     break;
   }
   return 0;
