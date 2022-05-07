@@ -1,25 +1,26 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <signal.h>
-#include <time.h>
 
-void f(int sig)
+int x = 0;
+
+void f()
 {
-    printf("that one\n");
+    printf("that one : %d\n", x + 1); // [0; 4] -> [1; 5]
     exit(0);
 }
 
 int main()
 {
-    srand(time(NULL));
-    signal(SIGALRM, f);
-    int i, r = (rand() % 6) + 1;
-    alarm(r);
-    for (i = 1; i <= 5; i++)
-    {
-        printf("%d\n", i);
-        sleep(1);
-    }
+    struct sigaction sigact;
+
+    sigact.sa_handler = f;
+    sigemptyset(&sigact.sa_mask);
+    sigaction(SIGALRM, &sigact, NULL);
+
+    alarm(1);
+    while (1) x = (x + 1) % 5;
     return 0;
 }
